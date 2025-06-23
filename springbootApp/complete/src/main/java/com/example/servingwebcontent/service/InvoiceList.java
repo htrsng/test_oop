@@ -33,7 +33,7 @@ public class InvoiceList {
         if (car.getStatus().equals("Sold")) {
             throw new IllegalStateException("Car with ID " + carId + " is already sold!");
         }
-        Invoice invoice = new Invoice(invoiceId, customerId, carId);
+        Invoice invoice = new Invoice(invoiceId, customer, car);
         invoice.setTotalAmount(car.getPrice());
         invoiceRepository.save(invoice);
         customer.addPurchase(invoice);

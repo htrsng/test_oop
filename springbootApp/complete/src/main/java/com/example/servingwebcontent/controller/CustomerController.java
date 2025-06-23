@@ -25,16 +25,16 @@ public class CustomerController {
     }
 
     @PostMapping("/customers/add")
-    public String addCustomer(@RequestParam String customerId, @RequestParam String name,
-                             @RequestParam String phone, @RequestParam String address, Model model) {
+    public String addCustomer(@RequestParam String id, @RequestParam String name,
+                             @RequestParam String email, @RequestParam String phoneNumber, @RequestParam String address, Model model) {
         try {
-            Customer customer = new Customer(customerId, name, phone, address);
+            Customer customer = new Customer(id, name, email, phoneNumber, address);
             customerList.addCustomer(customer);
             model.addAttribute("message", "Customer added successfully!");
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
         }
         model.addAttribute("customers", customerList.getAllCustomers());
-        return "customer/customer-list";
+        return "customer/customers";
     }
 }

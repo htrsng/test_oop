@@ -2,6 +2,8 @@ package com.example.servingwebcontent.controller;
 
 import com.example.servingwebcontent.model.Car;
 import com.example.servingwebcontent.service.CarList;
+import com.example.servingwebcontent.service.CustomerList;
+import com.example.servingwebcontent.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class CarController {
     private final CarList carList;
+    private final CustomerList customerList;
 
     @Autowired
-    public CarController(CarList carList) {
+    public CarController(CarList carList, CustomerList customerList) {
         this.carList = carList;
+        this.customerList = customerList;
     }
 
     @GetMapping("/cars")
@@ -44,7 +48,7 @@ public class CarController {
         return "car/car-list";
     }
 
-    @GetMapping("/customers")
+    @GetMapping("/car-customers")
     public String listCustomers(Model model) {
         model.addAttribute("customers", customerList.getAllCustomers());
         return "customers";
@@ -74,7 +78,12 @@ public class CarController {
 
     @PostMapping("/customers/edit")
     public String editCustomer(@ModelAttribute Customer customer) {
-        customerList.updateCustomer(customer);
+        customerList.updateCustomer(
+            customer.getCustomerId(), 
+            customer.getName(), 
+            customer.getPhone(), 
+            customer.getAddress()
+        );
         return "redirect:/customers";
     }
 
